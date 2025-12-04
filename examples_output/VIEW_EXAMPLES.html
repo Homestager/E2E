@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Примеры PNG Графиков - Система Аналитики</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 40px;
+            background: #f8f9fa;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-card .emoji {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        
+        .stat-card .number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .stat-card .label {
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .chart-section {
+            margin-bottom: 60px;
+        }
+        
+        .chart-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .chart-header .icon {
+            font-size: 48px;
+            margin-right: 20px;
+        }
+        
+        .chart-header .info h2 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .chart-header .info p {
+            font-size: 16px;
+            color: #666;
+        }
+        
+        .chart-details {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .chart-details h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        
+        .chart-details ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .chart-details li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        .chart-details li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #06A77D;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .chart-image {
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        
+        .chart-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+        
+        .chart-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .badge-size {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .badge-resolution {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+        
+        .badge-filesize {
+            background: #e8f5e9;
+            color: #388e3c;
+        }
+        
+        .badge-graphs {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .feature-card h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .feature-card p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 28px;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .chart-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .chart-header .icon {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 Примеры PNG Графиков</h1>
+            <p>Система аналитики для телеграм-бота</p>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="emoji">📊</div>
+                <div class="number">2</div>
+                <div class="label">Типа графиков</div>
+            </div>
+            <div class="stat-card">
+                <div class="emoji">📈</div>
+                <div class="number">24</div>
+                <div class="label">Подграфиков</div>
+            </div>
+            <div class="stat-card">
+                <div class="emoji">🎯</div>
+                <div class="number">15+</div>
+                <div class="label">Метрик</div>
+            </div>
+            <div class="stat-card">
+                <div class="emoji">🚨</div>
+                <div class="number">10+</div>
+                <div class="label">Типов алертов</div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- ГРАФИК 1 -->
+            <div class="chart-section">
+                <div class="chart-header">
+                    <div class="icon">📊</div>
+                    <div class="info">
+                        <h2>График 1 - Сквозная аналитика</h2>
+                        <p>Полный обзор всех кампаний за период</p>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <span class="badge badge-size">20 x 28 дюймов</span>
+                    <span class="badge badge-resolution">2400 x 3360 px</span>
+                    <span class="badge badge-filesize">~513 KB</span>
+                    <span class="badge badge-graphs">10 подграфиков</span>
+                </div>
+                
+                <div class="chart-details">
+                    <h3>📋 Содержание графика:</h3>
+                    <ul>
+                        <li><strong>Шапка</strong> - основные метрики (выручка, ROMI, CPL, LTV, конверсии)</li>
+                        <li><strong>Тепловая карта</strong> - продажи по дням недели и кампаниям</li>
+                        <li><strong>Динамика выручки</strong> - по кампаниям с полупрозрачными кривыми</li>
+                        <li><strong>Пирог выручки</strong> - распределение по кампаниям</li>
+                        <li><strong>Динамика по соцсетям</strong> - выручка по Instagram, Telegram, YouTube, VK</li>
+                        <li><strong>Пирог соцсетей</strong> - доля каждой соцсети</li>
+                        <li><strong>Распределение бюджета</strong> - по соцсетям и кампаниям (2 пирога)</li>
+                        <li><strong>Средний LTV</strong> - по кампаниям (горизонтальный график)</li>
+                        <li><strong>Сравнение ROMI</strong> - вертикальные столбики с расходами</li>
+                        <li><strong>ROMI и CPL</strong> - по соцсетям (двойной горизонтальный)</li>
+                    </ul>
+                </div>
+                
+                <div class="features">
+                    <div class="feature-card">
+                        <h4>🎯 Для кого</h4>
+                        <p>Для менеджеров и руководителей, которым нужен общий обзор всех рекламных кампаний</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>⏱️ Период</h4>
+                        <p>Настраивается: 7 дней, 30 дней, 90 дней или любой произвольный период</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🔄 Обновление</h4>
+                        <p>Автоматическая генерация по расписанию или по запросу через телеграм-бот</p>
+                    </div>
+                </div>
+                
+                <div class="chart-image">
+                    <img src="EXAMPLE_chart1_cross_analytics.png" alt="График 1 - Сквозная аналитика" onclick="window.open(this.src)">
+                </div>
+            </div>
+            
+            <!-- ГРАФИК 2 -->
+            <div class="chart-section">
+                <div class="chart-header">
+                    <div class="icon">📈</div>
+                    <div class="info">
+                        <h2>График 2 - Детальная аналитика по кампании</h2>
+                        <p>Глубокий анализ конкретной кампании</p>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <span class="badge badge-size">20 x 32 дюймов</span>
+                    <span class="badge badge-resolution">2400 x 3840 px</span>
+                    <span class="badge badge-filesize">~608 KB</span>
+                    <span class="badge badge-graphs">14 подграфиков</span>
+                </div>
+                
+                <div class="chart-details">
+                    <h3>📋 Содержание графика:</h3>
+                    <ul>
+                        <li><strong>Шапка кампании</strong> - детальные метрики, топ источники, худшие источники</li>
+                        <li><strong>Выручка по источникам</strong> - динамика каждого RID + пирог распределения</li>
+                        <li><strong>Выручка по соцсетям</strong> - динамика внутри кампании + пирог</li>
+                        <li><strong>Бюджет</strong> - распределение по соцсетям и источникам (2 пирога)</li>
+                        <li><strong>LTV по источникам</strong> - топ-15 (горизонтальный график)</li>
+                        <li><strong>ROMI по источникам</strong> - с линиями KPI и цветовым кодированием</li>
+                        <li><strong>ROMI по соцсетям</strong> - с линиями KPI и CPL</li>
+                        <li><strong>CPL по источникам</strong> - с линиями KPI</li>
+                        <li><strong>CAC</strong> - стоимость привлечения клиента</li>
+                        <li><strong>CPA</strong> - стоимость клика</li>
+                        <li><strong>Анализ воронки</strong> - CPA → CPL → CAC (выявление просадок!)</li>
+                        <li><strong>CR(C→S)</strong> - конверсия клики → продажи</li>
+                        <li><strong>CR(C→L)</strong> - конверсия клики → лиды</li>
+                        <li><strong>CR(L→S)</strong> - конверсия лиды → продажи</li>
+                    </ul>
+                </div>
+                
+                <div class="features">
+                    <div class="feature-card">
+                        <h4>🎯 Для кого</h4>
+                        <p>Для специалистов по таргету, которым нужен детальный анализ эффективности каждого источника</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🔍 Особенности</h4>
+                        <p>Включает линии KPI (положительный и отрицательный) с цветовым кодированием столбиков</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>📊 Анализ воронки</h4>
+                        <p>Уникальный график CPA→CPL→CAC помогает найти просадки в воронке конверсии</p>
+                    </div>
+                </div>
+                
+                <div class="chart-image">
+                    <img src="EXAMPLE_chart2_campaign_BLACKFRIDAY_2025.png" alt="График 2 - Детальная аналитика" onclick="window.open(this.src)">
+                </div>
+            </div>
+            
+            <!-- Дополнительная информация -->
+            <div class="chart-section">
+                <div class="chart-header">
+                    <div class="icon">💡</div>
+                    <div class="info">
+                        <h2>Дополнительные возможности</h2>
+                        <p>Что еще умеет система</p>
+                    </div>
+                </div>
+                
+                <div class="features">
+                    <div class="feature-card">
+                        <h4>🚨 Система алертов</h4>
+                        <p>Автоматическое обнаружение 10+ типов аномалий: падение ROMI, рост CPL, источники без трафика, корреляция пиков с запусками</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🔄 Сравнение периодов</h4>
+                        <p>Автоматическое сравнение неделя к неделе и месяц к месяцу по всем ключевым метрикам</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>📄 Текстовые отчеты</h4>
+                        <p>Форматированные карточки кампаний и текстовые отчеты для отправки в телеграм-бот</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🎨 Настройка</h4>
+                        <p>Гибкая настройка KPI, цветовой схемы, размеров графиков под ваши требования</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🔗 Интеграция</h4>
+                        <p>Легко интегрируется с любой БД и телеграм-ботом. Готовые примеры кода</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>⚡ Производительность</h4>
+                        <p>Быстрая генерация графиков, оптимизированная работа с большими объемами данных</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Система аналитики для телеграм-бота</strong></p>
+            <p style="margin-top: 10px; opacity: 0.8;">
+                Версия 1.0.0 | Декабрь 2025
+            </p>
+            <p style="margin-top: 10px;">
+                <a href="../README.md">Документация</a> | 
+                <a href="../USAGE_EXAMPLE.md">Примеры использования</a> | 
+                <a href="../SUMMARY.md">О проекте</a>
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        // Добавить плавное появление при скролле
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
+        
+        document.querySelectorAll('.chart-section, .stat-card, .feature-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+        
+        // Клик по изображению открывает в новом окне
+        console.log('📊 Система аналитики загружена!');
+        console.log('💡 Кликните на изображение для открытия в полном размере');
+    </script>
+</body>
+</html>
